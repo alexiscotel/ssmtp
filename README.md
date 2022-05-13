@@ -7,9 +7,19 @@ This `ssmtp` config only works on containers mounted from a remote server where 
 
 This means that if you try to run it on a local machine, `ssmtp` exit with a non-zero status
 
-## configuration
+## Summary
+1. [Configuration](#globalConfig)
+    1. [On host machine (VPS)](#hostConfig)
+    1. [Inside project (ssmtp configuration)](#ssmtpConfig)
+        1. [ssmtp.conf](#ssmtpConf)
+        1. [revaliases](#revaliases)
+1. [Tests](#tests)
+1. [Troubles](#troubles)
 
-### On host machine (VPS)
+  
+## <a name="globalConfig">Configuration</a>
+
+### <a name="hostConfig">On host machine (VPS)</a>
 
 * get docker0 host interface ip
 ```
@@ -43,9 +53,9 @@ mynetworks = ..., 172.0.0.0/8
 ```
 
 
-### Inside project <a name="ssmtpConfig">(ssmtp configuration)</a>
+### <a name="ssmtpConfig">Inside project (ssmtp configuration)</a>
 
-#### inside `php/ssmtp/ssmtp.conf`
+#### <a name="ssmtpConf">Inside `php/ssmtp/ssmtp.conf`</a>
 
 change `[docker0-IP]`, `[DOMAIN.EXT]` and `[VPS-NAME]`
 ```
@@ -61,7 +71,7 @@ hostname=[vps-id].vps.ovh.net // replace [vps-id] by your own
 ```
 
 
-#### inside `php/ssmtp/revaliases`
+#### <a name="revaliases">Inside `php/ssmtp/revaliases`</a>
 
 * change `[DOMAIN.EXT]` according with `rewriteDomain` for user `www-data`, and choose the name used for the service name of email address (`[SERVICE-NAME]`)
 ```
@@ -86,7 +96,7 @@ to get the actual real name, use the command
 getent passwd "www-data" | cut -d ':' -f 5 // => John Doe,,,
 ```
 
-## Tests
+## <a name="tests">Tests</a>
 
 * First of all, to see if the mail is correctly transmitted to the host machine, run in another remote server terminal
 ```
@@ -124,7 +134,7 @@ May 13 12:53:09 [vps-id] postfix/qmgr[814242]: D6C0841A8E: removed
 where `xx.mail.xxx.net[xxx.xxx.xxx.xxx]:25` is the remote server relay and his IP address
 
 
-## Troubles
+## <a name="troubles">Troubles</a>
 if there trouble to transfert mail, check :
 * the output log : `/var/log/mail.log`
 * your `ssmtp` [configuration](#ssmtpConfig)
