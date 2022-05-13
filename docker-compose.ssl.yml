@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+
+    www:
+        build: php
+        container_name: www_php_ssmtp
+        restart: always
+        volumes:
+            - ./php/vhosts:/etc/apache2/sites-enabled
+            - ./project:/var/www/project
+            - ./php/ssmtp/ssmtp.conf:/etc/ssmtp/ssmtp.conf
+            - ./php/ssmtp/revaliases:/etc/ssmtp/revaliases
+        labels:
+            - "traefik.enable=true"
+            # http
+            - "traefik.http.routers.http_mailssmtp.rule=Host(`mailssmtp.test`)"
+            - "traefik.http.routers.http_mailssmtp.entrypoints=http"
+            # https
+            - "traefik.http.routers.https_mailssmtp.rule=Host(`mailssmtp.test`)"
+            - "traefik.http.routers.https_mailssmtp.entrypoints=https"
+            - "traefik.http.routers.https_mailssmtp.tls=true"
+            - "traefik.http.routers.https_mailssmtp.tls.certresolver=myresolver"
+        networks:
+            - traefik #add 1st so traefik performs better
+            - dev
+
+networks:
+    dev:
+    traefik:
+        name: traefik_global
