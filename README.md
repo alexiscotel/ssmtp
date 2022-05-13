@@ -55,7 +55,10 @@ mynetworks = ..., 172.0.0.0/8
 
 ### <a name="ssmtpConfig">Inside project (ssmtp configuration)</a>
 
-#### <a name="ssmtpConf">Inside `php/ssmtp/ssmtp.conf`</a>
+* Create a copy of `php/ssmtp/ssmtp.conf` with name `php/ssmtp/ssmtp.conf.local` (`docker-compose.yml` reference).
+* Do the same for the `revaliases` file (`docker-compose.yml` reference)
+
+#### <a name="ssmtpConf">Inside `php/ssmtp/ssmtp.conf.local`</a>
 
 change `[docker0-IP]`, `[DOMAIN.EXT]` and `[VPS-NAME]`
 ```
@@ -66,7 +69,7 @@ hostname=[VPS-COMPLETE-NAME]
 Example
 ```
 mailhub=172.17.0.1
-rewriteDomain=example.net
+rewriteDomain=toto.net
 hostname=[vps-id].vps.ovh.net // replace [vps-id] by your own
 ```
 
@@ -79,7 +82,7 @@ www-data:[SERVICE-NAME]@[DOMAIN.EXT]
 ```
 Example
 ```
-www-data:noreply@example.net
+www-data:noreply@toto.net
 ```
 
 
@@ -110,7 +113,7 @@ docker-compose -f docker-compose.yml up -d
 ```
 docker exec -it www_php_ssmtp bash
 ```
-* inside container, test sending mail with this command (of course, replace `[mailAddress]` by a email address that you can access)
+* inside container, test sending mail with this command (of course, replace `[mailAddress]` by a email address that you can access). To see the SERVICE-NAME change with this command, don't forget to add line for root in container `/etc/ssmtp/revaliases`
 ```
 echo "content of mail from container" | mail -s "subject of mail from container" [mailAddress]
 ```
@@ -123,7 +126,7 @@ you'll see a first output like this
 May 13 12:53:02 [vps-id] postfix/smtpd[824438]: connect from unknown[172.20.0.2]
 May 13 12:53:02 [vps-id] postfix/smtpd[824438]: D6C0841A8E: client=unknown[172.20.0.2]
 May 13 12:53:03 [vps-id] postfix/cleanup[824441]: D6C0841A8E: message-id=<>
-May 13 12:53:03 [vps-id] postfix/qmgr[814242]: D6C0841A8E: from=<noreply@example.net>, size=438, nrcpt=1 (queue active)
+May 13 12:53:03 [vps-id] postfix/qmgr[814242]: D6C0841A8E: from=<noreply@toto.net>, size=438, nrcpt=1 (queue active)
 May 13 12:53:03 [vps-id] postfix/smtpd[824438]: disconnect from unknown[172.20.0.2] helo=1 mail=1 rcpt=1 data=1 quit=1 commands=5
 ```
 if the mail is correctly transmitted, you'll see a second outlike like this

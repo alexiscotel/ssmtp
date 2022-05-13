@@ -1,0 +1,4 @@
+# TODO: find better way to exclude all .local files
+
+*/*.local
+*/*/*.local

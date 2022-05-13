@@ -21,5 +21,6 @@ RUN pecl install apcu && docker-php-ext-enable apcu
 ### POSTFIX INSTALL
 RUN apt-get install -y mailutils ssmtp
 RUN chfn -f "header mail Name" www-data
+# no real name rewriting for root (do what you want)
 
 WORKDIR /var/www/
