@@ -2,7 +2,7 @@
 
 ssmtp configuration for docker environment. Worked with pre-configured [traefik template](https://github.com/alexiscotel/traefik)
 
-## :warning: Warning :warning: 
+## :warning: Warning
 This `ssmtp` config only works on containers mounted from a remote server where `postfix` (or other MTA) has been configured.
 
 This means that if you try to run it on a local machine, `ssmtp` exit with a non-zero status
